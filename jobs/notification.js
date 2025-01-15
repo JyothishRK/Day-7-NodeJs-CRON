@@ -4,28 +4,24 @@ import { format } from "date-fns";
 import path from "path";
 
 export function notificationGeneration() {
-  const notificationsDir = path.join(process.cwd(), "logs", "notifications");
-  if (!fs.existsSync(notificationsDir)) {
-    fs.mkdirSync(notificationsDir, { recursive: true });
+  const logsDir = path.join(process.cwd(), "logs");
+  const notificationLogPath = path.join(logsDir, "notification.log");
+
+  // Create logs directory if it doesn't exist
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
   }
 
   cron.schedule("*/10 * * * *", () => {
     const timestamp = format(new Date(), "dd-MM-yyyy_HH-mm-ss");
-    const logContent = `
-Notification sent at ${timestamp}
-------------------------
-`;
+    const logContent = `\nNotification sent at ${timestamp}\n------------------------\n`;
 
-    // Create a new file for each log entry
-    const fileName = `notification_${timestamp}.txt`;
-    const filePath = path.join(notificationsDir, fileName);
-
-    fs.writeFile(filePath, logContent, (err) => {
+    fs.appendFile(notificationLogPath, logContent, (err) => {
       if (err) {
-        console.error("Error writing to notification file:", err);
+        console.error("Error writing to notification log:", err);
         return;
       }
-      console.log("New notification file created:", fileName);
+      console.log("Notification log updated at:", timestamp);
     });
   });
 }

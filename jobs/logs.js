@@ -46,7 +46,7 @@ export function deleteOldLogs() {
   const logsDir = path.join(process.cwd(), "logs");
   
   // Run every 10 minutes
-  cron.schedule("10 * * * *", () => {
+  cron.schedule("*/10 * * * *", () => {
     fs.readdir(logsDir, (err, files) => {
       if (err) {
         console.error("Error reading logs directory:", err);
