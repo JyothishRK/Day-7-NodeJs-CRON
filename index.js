@@ -2,11 +2,15 @@ import express from "express";
 
 import tasksRouter from "./routers/tasks.js";
 import connectDB from "./db/mongoose.js";
+import { logGeneration, deleteOldLogs } from "./jobs/logs.js";
 
 const app = express();
 
 app.use(express.json());
 app.use("/tasks", tasksRouter);
+
+logGeneration();
+deleteOldLogs();
 
 app.get("/", (req, res) => {
   res.send("Hello World");
