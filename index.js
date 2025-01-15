@@ -4,6 +4,7 @@ import tasksRouter from "./routers/tasks.js";
 import connectDB from "./db/mongoose.js";
 import { logGeneration, deleteOldLogs } from "./jobs/logs.js";
 import { reportGeneration } from "./jobs/reports.js";
+import { notificationGeneration } from "./jobs/notification.js";
 
 const app = express();
 
@@ -14,6 +15,8 @@ logGeneration();
 deleteOldLogs();
 
 reportGeneration();
+
+notificationGeneration();
 
 app.get("/", (req, res) => {
   res.send("Hello World");
