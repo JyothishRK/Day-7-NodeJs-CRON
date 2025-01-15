@@ -10,8 +10,7 @@ export function reportGeneration() {
     fs.mkdirSync(reportsDir, { recursive: true });
   }
 
-  // Run every day at 15:20
-  cron.schedule("20 15 * * *", () => {
+  cron.schedule("0 0 * * *", () => {
     const timestamp = format(new Date(), "dd-MM-yyyy_HH-mm-ss");
     const randomMetrics = {
       cpu: Math.floor(Math.random() * 100),
